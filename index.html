@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spotify Style Music Card</title>
+  <title>GitHub Profile Music Card</title>
   <!-- Google Fonts: Sacramento for handwritten cursive -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,22 +24,24 @@
       min-height: 100vh;
       padding: 20px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      user-select: none;
     }
 
-    /* Fixed-width GitHub Readme Music Card Container */
+    /* GitHub Profile Card Container */
     .github-card-container {
       width: 100%;
       max-width: 440px;
       background-color: #21517a;
-      border-radius: 6px;
+      border-radius: 8px;
       padding: 24px 28px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      position: relative;
     }
 
-    /* Top Ornamental Divider */
+    /* Top Ornamental Line Header */
     .ornament {
       display: flex;
       align-items: center;
@@ -52,24 +54,25 @@
 
     .ornament .line {
       height: 1px;
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: rgba(255, 255, 255, 0.4);
       flex: 1;
     }
 
     .ornament svg {
-      width: 50px;
+      width: 48px;
       height: 12px;
       fill: currentColor;
     }
 
-    /* Center Image Container */
+    /* Center Image Frame */
     .image-frame {
       width: 100%;
       aspect-ratio: 1 / 1;
       overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
       margin-bottom: 22px;
       background-color: #1a3c5b;
+      border-radius: 4px;
     }
 
     .image-frame img {
@@ -86,7 +89,7 @@
       font-size: 2.3rem;
       text-align: center;
       line-height: 1.1;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 
@@ -104,11 +107,10 @@
       width: 3px;
       background-color: rgba(255, 255, 255, 0.9);
       border-radius: 3px;
-      height: 8px;
+      height: 6px;
       transition: height 0.15s ease;
     }
 
-    /* Soundwave Animation State */
     .soundwave.playing .bar {
       animation: wave 1.2s infinite ease-in-out;
     }
@@ -134,12 +136,14 @@
       50% { height: 22px; }
     }
 
-    /* Interactive Progress Bar Slider */
+    /* Progress Track Slider */
     .progress-container {
       width: 75%;
       display: flex;
       align-items: center;
       margin-bottom: 22px;
+      cursor: pointer;
+      padding: 6px 0;
     }
 
     .progress-bar {
@@ -148,7 +152,6 @@
       background: rgba(255, 255, 255, 0.3);
       border-radius: 2px;
       position: relative;
-      cursor: pointer;
     }
 
     .progress-fill {
@@ -170,7 +173,7 @@
       box-shadow: 0 1px 4px rgba(0,0,0,0.3);
     }
 
-    /* Player Play/Pause Controls */
+    /* Control Buttons */
     .player-controls {
       display: flex;
       align-items: center;
@@ -191,20 +194,20 @@
     }
 
     .control-btn:hover {
-      opacity: 0.8;
+      opacity: 0.85;
     }
 
     .control-btn:active {
-      transform: scale(0.95);
+      transform: scale(0.92);
     }
 
     .play-pause-btn {
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       background-color: #ffffff;
       border-radius: 50%;
       color: #21517a;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.25);
     }
 
     .skip-btn svg {
@@ -219,18 +222,21 @@
       fill: currentColor;
     }
 
-    /* Hidden Native Audio Element */
-    audio {
-      display: none;
+    /* Audio Status Notice */
+    .status-notice {
+      position: absolute;
+      bottom: 8px;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <!-- Spotify Style GitHub Music Card -->
   <div class="github-card-container">
     
-    <!-- Top Ornamental Header -->
+    <!-- Top Ornament Decorative Line -->
     <div class="ornament">
       <div class="line"></div>
       <svg viewBox="0 0 100 20">
@@ -240,15 +246,15 @@
       <div class="line"></div>
     </div>
 
-    <!-- Center Photo Frame -->
+    <!-- Album / Photo Cover -->
     <div class="image-frame">
-      <img src="cover.png" alt="Cover Photo" id="cover-image" />
+      <img src="cover.jpeg" alt="Cover Photo" id="cover-image" onerror="this.src='https://picsum.photos/400/400?grayscale'" />
     </div>
 
-    <!-- Handwritten Quote -->
+    <!-- Quote -->
     <div class="quote-text">Sa'yo parin ako uuwi.</div>
 
-    <!-- Animated Soundwave -->
+    <!-- Soundwave Animation -->
     <div class="soundwave" id="soundwave">
       <div class="bar"></div>
       <div class="bar"></div>
@@ -267,72 +273,124 @@
       <div class="bar"></div>
     </div>
 
-    <!-- Audio Progress Bar Slider -->
-    <div class="progress-container">
-      <div class="progress-bar" id="progress-bar">
+    <!-- Progress Bar Slider -->
+    <div class="progress-container" id="progress-container">
+      <div class="progress-bar">
         <div class="progress-fill" id="progress-fill">
           <div class="progress-handle"></div>
         </div>
       </div>
     </div>
 
-    <!-- Player Controls -->
+    <!-- Media Controls -->
     <div class="player-controls">
-      <!-- Previous Track Button -->
       <button class="control-btn skip-btn" id="prev-btn" aria-label="Previous">
-        <svg viewBox="0 0 24 24">
-          <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
       </button>
 
-      <!-- Play / Pause Main Button -->
       <button class="control-btn play-pause-btn" id="play-btn" aria-label="Play">
-        <svg id="play-icon" viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z"/>
-        </svg>
-        <svg id="pause-icon" viewBox="0 0 24 24" style="display: none;">
-          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-        </svg>
+        <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pause-icon" viewBox="0 0 24 24" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
       </button>
 
-      <!-- Next Track Button -->
       <button class="control-btn skip-btn" id="next-btn" aria-label="Next">
-        <svg viewBox="0 0 24 24">
-          <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
       </button>
     </div>
 
-    <!-- Native Audio Source -->
-    <audio id="audio-player" src="track.mp3" preload="metadata"></audio>
+    <div class="status-notice" id="status-notice"></div>
 
+    <!-- Native Audio Object -->
+    <audio id="audio-player" src="track.mp3" preload="metadata"></audio>
   </div>
 
-  <!-- Audio Player JavaScript Functionality -->
   <script>
     const audio = document.getElementById('audio-player');
     const playBtn = document.getElementById('play-btn');
     const playIcon = document.getElementById('play-icon');
     const pauseIcon = document.getElementById('pause-icon');
     const soundwave = document.getElementById('soundwave');
-    const progressBar = document.getElementById('progress-bar');
+    const progressContainer = document.getElementById('progress-container');
     const progressFill = document.getElementById('progress-fill');
+    const statusNotice = document.getElementById('status-notice');
 
-    // Toggle Play / Pause State
+    let audioContext = null;
+    let synthInterval = null;
+    let useFallbackSynth = false;
+
+    // Check if local file exists or fails
+    audio.addEventListener('error', () => {
+      useFallbackSynth = true;
+      statusNotice.innerText = "Local track.mp3 not found. Playing fallback melody.";
+    });
+
+    // Web Audio API Fallback Synth Melody Generator
+    function startFallbackSynth() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+
+      const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
+      let noteIdx = 0;
+
+      synthInterval = setInterval(() => {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(notes[noteIdx % notes.length], audioContext.currentTime);
+        
+        gain.gain.setValueAtTime(0.08, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.8);
+
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+
+        osc.start();
+        osc.stop(audioContext.currentTime + 0.8);
+
+        noteIdx++;
+      }, 400);
+
+      updatePlayerUI(true);
+    }
+
+    function stopFallbackSynth() {
+      if (synthInterval) clearInterval(synthInterval);
+      updatePlayerUI(false);
+    }
+
+    // Main Toggle Handler
     function togglePlay() {
+      if (useFallbackSynth) {
+        if (soundwave.classList.contains('playing')) {
+          stopFallbackSynth();
+        } else {
+          startFallbackSynth();
+        }
+        return;
+      }
+
       if (audio.paused) {
-        audio.play().then(() => {
-          updatePlayerUI(true);
-        }).catch(err => {
-          console.warn('Audio play request failed:', err);
-        });
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            updatePlayerUI(true);
+            statusNotice.innerText = "";
+          }).catch(err => {
+            console.warn('Local playback blocked, switching to synth:', err);
+            useFallbackSynth = true;
+            startFallbackSynth();
+          });
+        }
       } else {
         audio.pause();
         updatePlayerUI(false);
       }
     }
 
-    // Synchronize Icons & Soundwave Visuals
     function updatePlayerUI(isPlaying) {
       if (isPlaying) {
         playIcon.style.display = 'none';
@@ -345,23 +403,23 @@
       }
     }
 
-    // Update Progress Slider Fill Width
+    // Time progress handling
     audio.addEventListener('timeupdate', () => {
-      if (audio.duration) {
+      if (audio.duration && !useFallbackSynth) {
         const percent = (audio.currentTime / audio.duration) * 100;
         progressFill.style.width = `${percent}%`;
       }
     });
 
-    // Reset UI when track finishes playing
     audio.addEventListener('ended', () => {
       updatePlayerUI(false);
       progressFill.style.width = '0%';
     });
 
-    // Click Progress Bar to Seek Audio Timestamp
-    progressBar.addEventListener('click', (e) => {
-      const rect = progressBar.getBoundingClientRect();
+    // Manual Progress Seek
+    progressContainer.addEventListener('click', (e) => {
+      if (useFallbackSynth) return;
+      const rect = progressContainer.getBoundingClientRect();
       const clickPosition = (e.clientX - rect.left) / rect.width;
       if (audio.duration) {
         audio.currentTime = clickPosition * audio.duration;
