@@ -1,286 +1,374 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sa'yo Parin Ako Uuwi</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts for Cursive Script & Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotify Style Music Card</title>
+  <!-- Google Fonts: Sacramento for handwritten cursive -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <style>
-        body {
-            background-color: #1a4261;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
+    body {
+      background-color: #0d1117;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-        .font-script {
-            font-family: 'Dancing Script', 'Great Vibes', cursive;
-        }
+    /* Fixed-width GitHub Readme Music Card Container */
+    .github-card-container {
+      width: 100%;
+      max-width: 440px;
+      background-color: #21517a;
+      border-radius: 6px;
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
 
-        /* Waveform bar base styling */
-        .wave-bar {
-            background-color: #ffffff;
-            border-radius: 9999px;
-            transition: height 0.2s ease;
-        }
+    /* Top Ornamental Divider */
+    .ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 22px;
+    }
 
-        /* Waveform pulse animation during playback */
-        @keyframes soundwave {
-            0%, 100% { height: 6px; }
-            50% { height: 32px; }
-        }
+    .ornament .line {
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.5);
+      flex: 1;
+    }
 
-        .playing .wave-bar {
-            animation: soundwave 1.1s ease-in-out infinite;
-        }
+    .ornament svg {
+      width: 50px;
+      height: 12px;
+      fill: currentColor;
+    }
 
-        /* Staggered animation timings for organic wave motion */
-        .playing .wave-bar:nth-child(1)  { animation-delay: 0.1s; }
-        .playing .wave-bar:nth-child(2)  { animation-delay: 0.3s; }
-        .playing .wave-bar:nth-child(3)  { animation-delay: 0.15s; }
-        .playing .wave-bar:nth-child(4)  { animation-delay: 0.5s; }
-        .playing .wave-bar:nth-child(5)  { animation-delay: 0.25s; }
-        .playing .wave-bar:nth-child(6)  { animation-delay: 0.7s; }
-        .playing .wave-bar:nth-child(7)  { animation-delay: 0.35s; }
-        .playing .wave-bar:nth-child(8)  { animation-delay: 0.8s; }
-        .playing .wave-bar:nth-child(9)  { animation-delay: 0.2s; }
-        .playing .wave-bar:nth-child(10) { animation-delay: 0.6s; }
-        .playing .wave-bar:nth-child(11) { animation-delay: 0.4s; }
-        .playing .wave-bar:nth-child(12) { animation-delay: 0.75s; }
-        .playing .wave-bar:nth-child(13) { animation-delay: 0.18s; }
-        .playing .wave-bar:nth-child(14) { animation-delay: 0.55s; }
-        .playing .wave-bar:nth-child(15) { animation-delay: 0.32s; }
-        .playing .wave-bar:nth-child(16) { animation-delay: 0.85s; }
-        .playing .wave-bar:nth-child(17) { animation-delay: 0.22s; }
-        .playing .wave-bar:nth-child(18) { animation-delay: 0.65s; }
-        .playing .wave-bar:nth-child(19) { animation-delay: 0.45s; }
-        .playing .wave-bar:nth-child(20) { animation-delay: 0.12s; }
+    /* Center Image Container */
+    .image-frame {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      margin-bottom: 22px;
+      background-color: #1a3c5b;
+    }
 
-        /* Custom progress slider */
-        input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(255, 255, 255, 0.4);
-            height: 2px;
-            border-radius: 2px;
-            outline: none;
-        }
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ffffff;
-            cursor: pointer;
-            box-shadow: 0 0 6px rgba(0,0,0,0.3);
-        }
-    </style>
+    /* Handwritten Cursive Quote */
+    .quote-text {
+      font-family: 'Sacramento', cursive;
+      color: #ffffff;
+      font-size: 2.3rem;
+      text-align: center;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* Soundwave Visualizer Bars */
+    .soundwave {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      height: 24px;
+      margin-bottom: 18px;
+    }
+
+    .bar {
+      width: 3px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 3px;
+      height: 8px;
+      transition: height 0.15s ease;
+    }
+
+    /* Soundwave Animation State */
+    .soundwave.playing .bar {
+      animation: wave 1.2s infinite ease-in-out;
+    }
+
+    .soundwave.playing .bar:nth-child(1)  { animation-delay: 0.0s; }
+    .soundwave.playing .bar:nth-child(2)  { animation-delay: 0.2s; }
+    .soundwave.playing .bar:nth-child(3)  { animation-delay: 0.4s; }
+    .soundwave.playing .bar:nth-child(4)  { animation-delay: 0.1s; }
+    .soundwave.playing .bar:nth-child(5)  { animation-delay: 0.3s; }
+    .soundwave.playing .bar:nth-child(6)  { animation-delay: 0.5s; }
+    .soundwave.playing .bar:nth-child(7)  { animation-delay: 0.2s; }
+    .soundwave.playing .bar:nth-child(8)  { animation-delay: 0.4s; }
+    .soundwave.playing .bar:nth-child(9)  { animation-delay: 0.1s; }
+    .soundwave.playing .bar:nth-child(10) { animation-delay: 0.3s; }
+    .soundwave.playing .bar:nth-child(11) { animation-delay: 0.0s; }
+    .soundwave.playing .bar:nth-child(12) { animation-delay: 0.2s; }
+    .soundwave.playing .bar:nth-child(13) { animation-delay: 0.5s; }
+    .soundwave.playing .bar:nth-child(14) { animation-delay: 0.3s; }
+    .soundwave.playing .bar:nth-child(15) { animation-delay: 0.1s; }
+
+    @keyframes wave {
+      0%, 100% { height: 4px; }
+      50% { height: 22px; }
+    }
+
+    /* Interactive Progress Bar Slider */
+    .progress-container {
+      width: 75%;
+      display: flex;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .progress-handle {
+      width: 12px;
+      height: 12px;
+      background: #ffffff;
+      border-radius: 50%;
+      position: absolute;
+      right: -6px;
+      top: -4px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    /* Player Play/Pause Controls */
+    .player-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+    }
+
+    .control-btn {
+      background: none;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: opacity 0.2s ease, transform 0.1s ease;
+    }
+
+    .control-btn:hover {
+      opacity: 0.8;
+    }
+
+    .control-btn:active {
+      transform: scale(0.95);
+    }
+
+    .play-pause-btn {
+      width: 44px;
+      height: 44px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      color: #21517a;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .skip-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: #ffffff;
+    }
+
+    .play-pause-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    /* Hidden Native Audio Element */
+    audio {
+      display: none;
+    }
+  </style>
 </head>
-<body class="p-4 sm:p-6">
+<body>
 
-    <!-- MAIN CARD CONTAINER -->
-    <div class="w-full max-w-[440px] bg-[#225881] text-white rounded-xl p-8 sm:p-10 shadow-2xl flex flex-col items-center justify-between min-h-[660px] select-none">
-
-        <!-- TOP ORNAMENTAL FILIGREE DIVIDER -->
-        <div class="w-full flex items-center justify-center my-2 opacity-90">
-            <svg class="w-full max-w-[320px] h-6" viewBox="0 0 320 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <line x1="10" y1="12" x2="130" y2="12" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-                <line x1="190" y1="12" x2="310" y2="12" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-                <g transform="translate(144, 2)" fill="white">
-                    <path d="M12 10C8 5 3 4 0 10C3 16 8 15 12 10Z"/>
-                    <circle cx="-5" cy="10" r="1.5"/>
-                    <path d="M20 10C24 5 29 4 32 10C29 16 24 15 20 10Z"/>
-                    <circle cx="37" cy="10" r="1.5"/>
-                    <polygon points="16,4 21,10 16,16 11,10"/>
-                    <circle cx="16" cy="10" r="1.5" fill="#225881"/>
-                </g>
-            </svg>
-        </div>
-
-        <!-- PHOTO DISPLAY -->
-        <div class="w-full aspect-square my-6 overflow-hidden rounded-sm shadow-xl bg-slate-900/40">
-            <img id="card-photo" 
-                 src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80" 
-                 class="w-full h-full object-cover" 
-                 alt="Aquarium Couple Photo">
-        </div>
-
-        <!-- HANDWRITTEN CURSIVE TEXT -->
-        <div class="my-2 text-center">
-            <h1 class="font-script text-4xl sm:text-5xl tracking-wide font-normal drop-shadow-md text-white">
-                Sa'yo parin ako uuwi.
-            </h1>
-        </div>
-
-        <!-- SOUNDWAVE VISUALIZER -->
-        <div id="waveform" class="flex items-center justify-center space-x-[3px] h-8 my-3 w-full max-w-[280px]">
-            <div class="wave-bar w-[2px] h-1"></div>
-            <div class="wave-bar w-[2px] h-2"></div>
-            <div class="wave-bar w-[2px] h-3"></div>
-            <div class="wave-bar w-[2px] h-5"></div>
-            <div class="wave-bar w-[2px] h-7"></div>
-            <div class="wave-bar w-[2px] h-4"></div>
-            <div class="wave-bar w-[2px] h-6"></div>
-            <div class="wave-bar w-[2px] h-8"></div>
-            <div class="wave-bar w-[2px] h-5"></div>
-            <div class="wave-bar w-[2px] h-7"></div>
-            <div class="wave-bar w-[2px] h-[30px]"></div>
-            <div class="wave-bar w-[2px] h-6"></div>
-            <div class="wave-bar w-[2px] h-8"></div>
-            <div class="wave-bar w-[2px] h-4"></div>
-            <div class="wave-bar w-[2px] h-6"></div>
-            <div class="wave-bar w-[2px] h-5"></div>
-            <div class="wave-bar w-[2px] h-3"></div>
-            <div class="wave-bar w-[2px] h-2"></div>
-            <div class="wave-bar w-[2px] h-1"></div>
-            <div class="wave-bar w-[2px] h-1"></div>
-        </div>
-
-        <!-- AUDIO PROGRESS SCRUBBER -->
-        <div class="w-full max-w-[280px] my-2">
-            <input type="range" id="progress-bar" value="0" min="0" max="100" class="w-full cursor-pointer">
-        </div>
-
-        <!-- PLAYER BUTTON CONTROLS -->
-        <div class="flex items-center justify-center space-x-8 text-white my-3">
-            <button id="btn-prev" class="hover:opacity-80 transition-opacity active:scale-90 text-xl" title="Previous">
-                <i class="fa-solid fa-backward-step"></i>
-            </button>
-
-            <button id="btn-play" class="w-12 h-12 rounded-full bg-white text-[#225881] flex items-center justify-center text-xl shadow-md hover:scale-105 active:scale-95 transition-transform" title="Play / Pause">
-                <i class="fa-solid fa-play ml-0.5" id="play-icon"></i>
-            </button>
-
-            <button id="btn-next" class="hover:opacity-80 transition-opacity active:scale-90 text-xl" title="Next">
-                <i class="fa-solid fa-forward-step"></i>
-            </button>
-        </div>
-
-        <!-- BOTTOM ORNAMENTAL FILIGREE DIVIDER -->
-        <div class="w-full flex items-center justify-center my-2 opacity-90">
-            <svg class="w-full max-w-[320px] h-6" viewBox="0 0 320 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <line x1="10" y1="12" x2="130" y2="12" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-                <line x1="190" y1="12" x2="310" y2="12" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
-                <g transform="translate(144, 2)" fill="white">
-                    <path d="M12 10C8 5 3 4 0 10C3 16 8 15 12 10Z"/>
-                    <circle cx="-5" cy="10" r="1.5"/>
-                    <path d="M20 10C24 5 29 4 32 10C29 16 24 15 20 10Z"/>
-                    <circle cx="37" cy="10" r="1.5"/>
-                    <polygon points="16,4 21,10 16,16 11,10"/>
-                    <circle cx="16" cy="10" r="1.5" fill="#225881"/>
-                </g>
-            </svg>
-        </div>
-
+  <!-- Spotify Style GitHub Music Card -->
+  <div class="github-card-container">
+    
+    <!-- Top Ornamental Header -->
+    <div class="ornament">
+      <div class="line"></div>
+      <svg viewBox="0 0 100 20">
+        <path d="M 0 10 L 35 10 Q 42 10 45 4 L 50 12 L 55 4 Q 58 10 65 10 L 100 10" stroke="currentColor" stroke-width="2" fill="none" />
+        <circle cx="50" cy="12" r="3" fill="currentColor" />
+      </svg>
+      <div class="line"></div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            let isPlaying = false;
-            let audioCtx = null;
-            let gainNode = null;
-            let progress = 0;
-            let interval = null;
-            const trackDuration = 180; // 3 minutes total track duration
+    <!-- Center Photo Frame -->
+    <div class="image-frame">
+      <img src="cover.png" alt="Cover Photo" id="cover-image" />
+    </div>
 
-            const btnPlay = document.getElementById('btn-play');
-            const playIcon = document.getElementById('play-icon');
-            const waveform = document.getElementById('waveform');
-            const progressBar = document.getElementById('progress-bar');
-            const btnPrev = document.getElementById('btn-prev');
-            const btnNext = document.getElementById('btn-next');
+    <!-- Handwritten Quote -->
+    <div class="quote-text">Sa'yo parin ako uuwi.</div>
 
-            // Web Audio API melody loop synthesizer for realistic audio feedback
-            function startAudioMelody() {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
+    <!-- Animated Soundwave -->
+    <div class="soundwave" id="soundwave">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
 
-                gainNode = audioCtx.createGain();
-                gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+    <!-- Audio Progress Bar Slider -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar">
+        <div class="progress-fill" id="progress-fill">
+          <div class="progress-handle"></div>
+        </div>
+      </div>
+    </div>
 
-                // Warm ambient chord notes
-                const notes = [261.63, 329.63, 392.00, 523.25]; // C major triad chord harmonics
-                notes.forEach(freq => {
-                    const osc = audioCtx.createOscillator();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                    osc.connect(gainNode);
-                    osc.start();
-                });
+    <!-- Player Controls -->
+    <div class="player-controls">
+      <!-- Previous Track Button -->
+      <button class="control-btn skip-btn" id="prev-btn" aria-label="Previous">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+        </svg>
+      </button>
 
-                gainNode.connect(audioCtx.destination);
-            }
+      <!-- Play / Pause Main Button -->
+      <button class="control-btn play-pause-btn" id="play-btn" aria-label="Play">
+        <svg id="play-icon" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg id="pause-icon" viewBox="0 0 24 24" style="display: none;">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+      </button>
 
-            function stopAudioMelody() {
-                if (gainNode && audioCtx) {
-                    gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.15);
-                    setTimeout(() => {
-                        try { gainNode.disconnect(); } catch(e) {}
-                    }, 150);
-                }
-            }
+      <!-- Next Track Button -->
+      <button class="control-btn skip-btn" id="next-btn" aria-label="Next">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+        </svg>
+      </button>
+    </div>
 
-            function togglePlay() {
-                if (isPlaying) {
-                    stopAudioMelody();
-                    clearInterval(interval);
-                    playIcon.classList.remove('fa-pause');
-                    playIcon.classList.add('fa-play', 'ml-0.5');
-                    waveform.classList.remove('playing');
-                } else {
-                    startAudioMelody();
-                    interval = setInterval(() => {
-                        progress += (100 / trackDuration);
-                        if (progress >= 100) {
-                            progress = 0;
-                            togglePlay();
-                        }
-                        progressBar.value = progress;
-                    }, 1000);
+    <!-- Native Audio Source -->
+    <audio id="audio-player" src="track.mp3" preload="metadata"></audio>
 
-                    playIcon.classList.remove('fa-play', 'ml-0.5');
-                    playIcon.classList.add('fa-pause');
-                    waveform.classList.add('playing');
-                }
-                isPlaying = !isPlaying;
-            }
+  </div>
 
-            btnPlay.addEventListener('click', togglePlay);
+  <!-- Audio Player JavaScript Functionality -->
+  <script>
+    const audio = document.getElementById('audio-player');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const soundwave = document.getElementById('soundwave');
+    const progressBar = document.getElementById('progress-bar');
+    const progressFill = document.getElementById('progress-fill');
 
-            progressBar.addEventListener('input', (e) => {
-                progress = parseFloat(e.target.value);
-            });
-
-            btnPrev.addEventListener('click', () => {
-                progress = Math.max(0, progress - 10);
-                progressBar.value = progress;
-            });
-
-            btnNext.addEventListener('click', () => {
-                progress = Math.min(100, progress + 10);
-                progressBar.value = progress;
-            });
+    // Toggle Play / Pause State
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play().then(() => {
+          updatePlayerUI(true);
+        }).catch(err => {
+          console.warn('Audio play request failed:', err);
         });
-    </script>
+      } else {
+        audio.pause();
+        updatePlayerUI(false);
+      }
+    }
+
+    // Synchronize Icons & Soundwave Visuals
+    function updatePlayerUI(isPlaying) {
+      if (isPlaying) {
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+        soundwave.classList.add('playing');
+      } else {
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+        soundwave.classList.remove('playing');
+      }
+    }
+
+    // Update Progress Slider Fill Width
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = `${percent}%`;
+      }
+    });
+
+    // Reset UI when track finishes playing
+    audio.addEventListener('ended', () => {
+      updatePlayerUI(false);
+      progressFill.style.width = '0%';
+    });
+
+    // Click Progress Bar to Seek Audio Timestamp
+    progressBar.addEventListener('click', (e) => {
+      const rect = progressBar.getBoundingClientRect();
+      const clickPosition = (e.clientX - rect.left) / rect.width;
+      if (audio.duration) {
+        audio.currentTime = clickPosition * audio.duration;
+      }
+    });
+
+    playBtn.addEventListener('click', togglePlay);
+  </script>
 </body>
 </html>
-```
